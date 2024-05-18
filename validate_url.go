@@ -11,6 +11,7 @@ const (
 	TooShortURLMessage    = "Too short - you might consider targeting a less competitive and more specific keyword"
 	SpecialCharMessage    = "The URL contains special characters, consider removing them"
 	KeywordMissingMessage = "The keyword is not present in the URL. Consider inserting it"
+	NumberWarning         = "It's not part of SEO best practices to have numbers in your URL, such as dates"
 	OptimizedURLMessage   = "Optimized"
 	MaxURLLength          = 25
 	MinURLLength          = 6
@@ -21,22 +22,32 @@ func ValidateURL(url string, keyword string) string {
 	url = strings.TrimSpace(url)
 	keyword = strings.TrimSpace(keyword)
 
+	messages := []string{}
+
 	lengthMessage := checkURLLength(url)
 	if lengthMessage != "" {
-		return lengthMessage
+		messages = append(messages, lengthMessage)
 	}
 
 	specialCharMessage := checkSpecialCharacters(url)
 	if specialCharMessage != "" {
-		return specialCharMessage
+		messages = append(messages, specialCharMessage)
 	}
 
 	keywordMessage := checkKeywordInURL(url, keyword)
 	if keywordMessage != "" {
-		return keywordMessage
+		messages = append(messages, keywordMessage)
 	}
 
-	return OptimizedURLMessage
+	numberMessage := checkNumbers(url)
+	if numberMessage != "" {
+		messages = append(messages, NumberWarning)
+	}
+
+	if len(messages) == 0 {
+		return OptimizedURLMessage
+	}
+	return strings.Join(messages, " | ")
 }
 
 // checkURLLength checks if the URL length is within acceptable limits
@@ -59,8 +70,17 @@ func checkURLLength(url string) string {
 // checkSpecialCharacters checks if the URL contains special characters
 func checkSpecialCharacters(url string) string {
 	for _, char := range url {
-		if !unicode.IsLetter(char) && !unicode.IsDigit(char) && char != '-' && char != '/' {
+		if !unicode.IsLetter(char) && !unicode.IsDigit(char) && char != '-' && char != '/' && char != ' ' {
 			return SpecialCharMessage
+		}
+	}
+	return ""
+}
+
+func checkNumbers(url string) string {
+	for _, char := range url {
+		if unicode.IsDigit(char) {
+			return NumberWarning
 		}
 	}
 	return ""
