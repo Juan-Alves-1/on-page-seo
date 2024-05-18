@@ -22,7 +22,7 @@ func main() {
 	r.POST("/url-checker/analyze", func(c *gin.Context) {
 		url := c.PostForm("url")
 		keyword := c.PostForm("keyword")
-		urlResult := ValidateURL(url)
+		urlResult := ValidateURL(url, keyword)
 		c.JSON(http.StatusOK, gin.H{
 			"url":     url,
 			"keyword": keyword,
