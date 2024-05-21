@@ -1,6 +1,8 @@
 package main
 
 import (
+	"net/url"
+	"path"
 	"strings"
 	"unicode"
 )
@@ -11,14 +13,28 @@ const (
 	TooShortURLMessage    = "Too short - you might consider targeting a less competitive and more specific keyword"
 	SpecialCharMessage    = "The URL contains special characters, consider removing them"
 	KeywordMissingMessage = "The keyword is not present in the URL. Consider inserting it"
-	NumberWarning         = "It's not part of SEO best practices to have numbers in your URL, such as dates"
-	OptimizedURLMessage   = "Optimized"
+	NumberWarning         = "It's not part of SEO best practices to have numbers such as dates in your URL"
+	OptimizedURLMessage   = "Well done! Your URL looks great"
 	MaxURLLength          = 25
 	MinURLLength          = 6
 )
 
+func ExtractSlug(input string) (string, error) {
+	if !strings.HasPrefix(input, "http://") && !strings.HasPrefix(input, "https://") {
+		input = "http://" + input // Prepend default protocol if missing
+	}
+
+	inp, err := url.Parse(input)
+	if err != nil {
+		return "", err
+	}
+	pathSegments := path.Clean(inp.Path)
+	lastSegment := path.Base(pathSegments)
+	return lastSegment, nil
+}
+
 // ValidateURL aggregates the results of individual validation functions
-func ValidateURL(url string, keyword string) string {
+func ValidateURL(url string, keyword string) []string {
 	url = strings.TrimSpace(url)
 	keyword = strings.TrimSpace(keyword)
 
@@ -45,9 +61,9 @@ func ValidateURL(url string, keyword string) string {
 	}
 
 	if len(messages) == 0 {
-		return OptimizedURLMessage
+		return []string{OptimizedURLMessage}
 	}
-	return strings.Join(messages, " | ")
+	return messages
 }
 
 // checkURLLength checks if the URL length is within acceptable limits

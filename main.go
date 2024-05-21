@@ -8,7 +8,7 @@ import (
 
 func main() {
 	r := gin.Default()
-	r.LoadHTMLFiles("index.html", "checker.html")
+	r.LoadHTMLGlob("templates/*")
 
 	r.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", nil)
@@ -22,11 +22,20 @@ func main() {
 	r.POST("/url-checker/analyze", func(c *gin.Context) {
 		url := c.PostForm("url")
 		keyword := c.PostForm("keyword")
-		urlResult := ValidateURL(url, keyword)
-		c.JSON(http.StatusOK, gin.H{
-			"url":     url,
-			"keyword": keyword,
-			"result":  urlResult,
+		slug, err := ExtractSlug(url)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": "Invalid URL format",
+			})
+			return
+		}
+
+		urlResult := ValidateURL(slug, keyword)
+		c.HTML(http.StatusOK, "url_results.html", gin.H{
+			"URL":     url,
+			"Slug":    slug,
+			"Keyword": keyword,
+			"Result":  urlResult,
 		})
 	})
 

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO-Friendly URL Results</title>
+</head>
+<body>
+    <h1>SEO-Friendly URL Results</h1>
+    <p><strong>Result:</strong></p>
+    <ul>
+        {{range .Result}}
+            <li>{{.}}</li>
+        {{end}}
+    </ul>
+    <br>
+    <p><strong>URL:</strong> {{.URL}}</p>
+    <p><strong>Slug:</strong> {{.Slug}}</p>
+    <p><strong>Keyword:</strong> {{.Keyword}}</p>
+    <br>
+    <a href="/url-checker">Go Back</a>
+</body>
+</html>
