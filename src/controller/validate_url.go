@@ -67,6 +67,7 @@ func ValidateURL(url string, keyword string) []string {
 }
 
 // checkURLLength checks if the URL length is within acceptable limits
+// NOTES: ADD TESTING
 func checkURLLength(url string) string {
 	normalizedURL := strings.ReplaceAll(url, "-", "")
 	normalizedURL = strings.ReplaceAll(normalizedURL, "/", "")
