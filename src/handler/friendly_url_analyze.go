@@ -2,7 +2,7 @@ package handler
 
 import (
 	"net/http"
-	"on-page-seo/controller"
+	controller "on-page-seo/src/controller"
 
 	"github.com/gin-gonic/gin"
 )

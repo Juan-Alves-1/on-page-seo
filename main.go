@@ -1,7 +1,7 @@
 package main
 
 import (
-	"on-page-seo/handler"
+	"on-page-seo/src/handler"
 
 	"github.com/gin-gonic/gin"
 )
