@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/url"
+	"on-page-seo/src/repositories"
 	"path"
 	"strings"
 	"unicode"
@@ -58,6 +59,12 @@ func ValidateURL(url string, keyword string) []string {
 	numberMessage := checkNumbers(url)
 	if numberMessage != "" {
 		messages = append(messages, NumberWarning)
+	}
+
+	resultBody := repositories.ResultBody{}
+	err := repositories.SaveResults(resultBody)
+	if err != nil {
+		return []string{err.Error()}
 	}
 
 	if len(messages) == 0 {
