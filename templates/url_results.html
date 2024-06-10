@@ -19,5 +19,13 @@
     <p><strong>Keyword:</strong> {{.Keyword}}</p>
     <br>
     <a href="/url-checker">Go Back</a>
+    <br>
+    <form action="/url-checker/analyze/save" method="POST">
+        <input type="hidden" name="url" value="{{.URL}}">
+        <input type="hidden" name="slug" value="{{.Slug}}">
+        <input type="hidden" name="keyword" value="{{.Keyword}}">
+        <input type="hidden" name="result" value="{{range .Result}}{{.}}{{end}}">
+        <input type="submit" value="Save Results">
+    </form>
 </body>
 </html>
