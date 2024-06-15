@@ -2,7 +2,6 @@ package controller
 
 import (
 	"net/url"
-	"on-page-seo/src/repositories"
 	"path"
 	"strings"
 	"unicode"
@@ -61,11 +60,11 @@ func ValidateURL(url string, keyword string) []string {
 		messages = append(messages, NumberWarning)
 	}
 
-	resultBody := repositories.ResultBody{}
-	err := repositories.SaveResults(resultBody)
-	if err != nil {
-		return []string{err.Error()}
-	}
+	//resultBody := repositories.ResultBody{}
+	//err := repositories.SaveResults(resultBody)
+	// if err != nil {
+	//	return []string{err.Error()}
+	// }
 
 	if len(messages) == 0 {
 		return []string{OptimizedURLMessage}
@@ -74,7 +73,6 @@ func ValidateURL(url string, keyword string) []string {
 }
 
 // checkURLLength checks if the URL length is within acceptable limits
-// NOTES: ADD TESTING
 func checkURLLength(url string) string {
 	normalizedURL := strings.ReplaceAll(url, "-", "")
 	normalizedURL = strings.ReplaceAll(normalizedURL, "/", "")
@@ -101,6 +99,7 @@ func checkSpecialCharacters(url string) string {
 	return ""
 }
 
+// Checks if there are numbers in the url
 func checkNumbers(url string) string {
 	for _, char := range url {
 		if unicode.IsDigit(char) {
