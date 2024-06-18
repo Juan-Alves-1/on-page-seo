@@ -6,10 +6,10 @@ import (
 )
 
 type ResultBody struct {
-	URL     string `json:"url"`
-	Slug    string `json:"slug"`
-	Keyword string `json:"keyword"`
-	Result  string `json:"result"`
+	URL     string   `json:"url"`
+	Slug    string   `json:"slug"`
+	Keyword string   `json:"keyword"`
+	Result  []string `json:"result"`
 }
 
 func SaveResults(resultBody ResultBody) error {
