@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"log"
+	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -11,7 +12,7 @@ var DB *sql.DB
 
 func InitDB() {
 	var err error
-	dsn := "username:mydatabase@tcp(127.0.0.1:3307)/friendly_url_results"
+	dsn := os.Getenv("CLEARDB_DATABASE_URL")
 	DB, err = sql.Open("mysql", dsn)
 	if err != nil {
 		log.Fatalf("Error opening database: %v", err)
