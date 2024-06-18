@@ -22,5 +22,22 @@ func InitDB() {
 		log.Fatalf("Error connecting to the database: %v", err)
 	}
 
+	// if err = AutoMigrate(); err != nil {
+	// 	return err
+	// }
+
 	log.Println("Database connection established")
 }
+
+// func AutoMigrate() error {
+// 	DB.Exec(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`)
+
+// 	if err := DB.AutoMigrate(Tables...); err != nil { // ENCONTRAR UMA FUNÇÃO DO SQL.DB COMPATIVEL A ESSA
+// 		return err
+// 	}
+// 	return nil
+// }
+
+// var Tables = []interface{}{
+// 	&repositories.ResultBody{},
+// }
