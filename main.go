@@ -4,6 +4,8 @@ import (
 	"on-page-seo/database"
 	"on-page-seo/src/handler"
 
+	"os"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,5 +19,9 @@ func main() {
 	r.GET("/url-checker", handler.ShowChecker)
 	r.POST("/url-checker/analyze", handler.UrlCheckerAnalysis)
 
-	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	r.Run(":" + port) // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
