@@ -12,7 +12,7 @@ var DB *sql.DB
 
 func InitDB() {
 	var err error
-	dsn := os.Getenv("CLEARDB_DATABASE_URL")
+	dsn := os.Getenv("DATABASE_URL")
 	DB, err = sql.Open("mysql", dsn)
 	if err != nil {
 		log.Fatalf("Error opening database: %v", err)
