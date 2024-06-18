@@ -19,7 +19,7 @@ func UrlCheckerAnalysis(c *gin.Context) {
 		return
 	}
 
-	urlResult := controller.ValidateURL(slug, keyword)
+	urlResult := controller.ValidateURL(slug, keyword, slug)
 
 	c.HTML(http.StatusOK, "url_results.html", gin.H{
 		"URL":     url,

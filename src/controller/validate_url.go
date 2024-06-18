@@ -35,7 +35,7 @@ func ExtractSlug(input string) (string, error) {
 }
 
 // ValidateURL aggregates the results of individual validation functions
-func ValidateURL(url string, keyword string) []string {
+func ValidateURL(url string, keyword string, slug string) []string {
 	url = strings.TrimSpace(url)
 	keyword = strings.TrimSpace(keyword)
 
@@ -64,6 +64,7 @@ func ValidateURL(url string, keyword string) []string {
 	resultBody := repositories.ResultBody{
 		URL:     url,
 		Keyword: keyword,
+		Slug:    slug,
 		Result:  messages,
 	}
 
