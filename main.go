@@ -1,13 +1,14 @@
 package main
 
 import (
+	"on-page-seo/database"
 	"on-page-seo/src/handler"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	// database.InitDB()
+	database.InitDB()
 
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*")
