@@ -2,7 +2,7 @@
 CREATE DATABASE friendly_url_results;
 
 -- Use the database
-USE friendly_url_results;
+USE friendly_url_results; 
 
 -- Create the table to store URL analysis results
 CREATE TABLE results (
