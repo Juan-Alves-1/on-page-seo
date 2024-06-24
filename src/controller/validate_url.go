@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/url"
+	"on-page-seo/src/repositories"
 	"path"
 	"strings"
 	"unicode"
@@ -60,7 +61,7 @@ func ValidateURL(url string, keyword string, slug string) []string {
 		messages = append(messages, NumberWarning)
 	}
 
-	/* resultBody := repositories.ResultBody{
+	resultBody := repositories.ResultBody{
 		URL:     url,
 		Keyword: keyword,
 		Slug:    slug,
@@ -70,7 +71,7 @@ func ValidateURL(url string, keyword string, slug string) []string {
 	err := repositories.SaveResults(resultBody)
 	if err != nil {
 		return []string{err.Error()}
-	 } */
+	}
 
 	if len(messages) == 0 {
 		return []string{OptimizedURLMessage}
