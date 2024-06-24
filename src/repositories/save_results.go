@@ -3,6 +3,7 @@ package repositories
 import (
 	"log"
 	"on-page-seo/database"
+	"strings"
 )
 
 type ResultBody struct {
@@ -14,7 +15,8 @@ type ResultBody struct {
 
 func SaveResults(resultBody ResultBody) error {
 	query := "INSERT INTO results (url, slug, keyword, result) VALUES (?, ?, ?, ?)"
-	_, err := database.DB.Exec(query, resultBody.URL, resultBody.Slug, resultBody.Keyword, resultBody.Result)
+	resultString := strings.Join(resultBody.Result, " ")
+	_, err := database.DB.Exec(query, resultBody.URL, resultBody.Slug, resultBody.Keyword, resultString)
 	if err != nil {
 		log.Printf("Failed to execute query: %v", err)
 	}
