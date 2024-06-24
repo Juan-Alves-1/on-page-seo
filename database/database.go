@@ -1,43 +1,41 @@
 package database
 
 import (
-	"database/sql"
 	"log"
+	"on-page-seo/src/models"
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
-var DB *sql.DB
+var (
+	DB  *gorm.DB
+	err error
+)
 
 func InitDB() {
-	var err error
 	dsn := os.Getenv("DATABASE_URL")
-	DB, err = sql.Open("mysql", dsn)
+	DB, err = gorm.Open(postgres.Open(dsn))
 	if err != nil {
 		log.Fatalf("Error opening database: %v", err)
 	}
 
-	if err = DB.Ping(); err != nil {
-		log.Fatalf("Error connecting to the database: %v", err)
+	if err = AutoMigrate(); err != nil {
+		log.Fatalf("Error opening database: %v", err)
 	}
-
-	// if err = AutoMigrate(); err != nil {
-	// 	return err
-	// }
 
 	log.Println("Database connection established")
 }
 
-// func AutoMigrate() error {
-// 	DB.Exec(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`)
+func AutoMigrate() error {
+	if err := DB.AutoMigrate(Tables...); err != nil {
+		return err
+	}
+	return nil
+}
 
-// 	if err := DB.AutoMigrate(Tables...); err != nil { // ENCONTRAR UMA FUNÇÃO DO SQL.DB COMPATIVEL A ESSA
-// 		return err
-// 	}
-// 	return nil
-// }
-
-// var Tables = []interface{}{
-// 	&repositories.ResultBody{},
-// }
+var Tables = []interface{}{
+	&models.ResultBody{},
+}
