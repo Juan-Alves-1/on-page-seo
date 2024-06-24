@@ -61,6 +61,10 @@ func ValidateURL(url string, keyword string, slug string) []string {
 		messages = append(messages, NumberWarning)
 	}
 
+	if len(messages) == 0 {
+		messages = []string{OptimizedURLMessage}
+	}
+
 	resultBody := repositories.ResultBody{
 		URL:     url,
 		Keyword: keyword,
@@ -73,9 +77,6 @@ func ValidateURL(url string, keyword string, slug string) []string {
 		return []string{err.Error()}
 	}
 
-	if len(messages) == 0 {
-		return []string{OptimizedURLMessage}
-	}
 	return messages
 }
 
