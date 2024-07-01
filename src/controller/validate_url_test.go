@@ -8,7 +8,7 @@ import (
 // PRECISA MOCKAR A BASE DE DADOS
 // Agora esse teste vai dar error por conta da conexão com a base de dados, sendo assim
 // a gene precisa colocar uma base de dados "mock" para esse teste funcionar do jeito correto
-func TestValidateURL(t *testing.T) {
+func TestValidateSlug(t *testing.T) {
 	tests := []struct {
 		name     string
 		url      string
@@ -43,7 +43,7 @@ func TestValidateURL(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := ValidateURL(tt.url, tt.keyword, "slug")
+			result := ValidateSlug(tt.url, tt.keyword, "slug")
 			joinedResult := strings.Join(result, "\n")
 			if joinedResult != tt.expected {
 				t.Errorf("ValidateURL(%s, %s) = %v; expected %v", tt.url, tt.keyword, joinedResult, tt.expected)

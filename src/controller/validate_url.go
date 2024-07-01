@@ -35,28 +35,28 @@ func ExtractSlug(input string) (string, error) {
 }
 
 // ValidateURL aggregates the results of individual validation functions
-func ValidateURL(url string, keyword string, slug string) []string {
-	url = strings.TrimSpace(url)
+func ValidateSlug(url string, keyword string, slug string) []string {
+	slug = strings.TrimSpace(slug)
 	keyword = strings.TrimSpace(keyword)
 
 	messages := []string{}
 
-	lengthMessage := checkURLLength(url)
+	lengthMessage := checkURLLength(slug)
 	if lengthMessage != "" {
 		messages = append(messages, lengthMessage)
 	}
 
-	specialCharMessage := checkSpecialCharacters(url)
+	specialCharMessage := checkSpecialCharacters(slug)
 	if specialCharMessage != "" {
 		messages = append(messages, specialCharMessage)
 	}
 
-	keywordMessage := checkKeywordInURL(url, keyword)
+	keywordMessage := checkKeywordInURL(slug, keyword)
 	if keywordMessage != "" {
 		messages = append(messages, keywordMessage)
 	}
 
-	numberMessage := checkNumbers(url)
+	numberMessage := checkNumbers(slug)
 	if numberMessage != "" {
 		messages = append(messages, NumberWarning)
 	}
