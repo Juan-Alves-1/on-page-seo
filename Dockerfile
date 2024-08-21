@@ -8,11 +8,7 @@ RUN go mod download
 
 COPY . .
 
-# Make the init_db.sh script executable and run it
-RUN chmod +x init_db.sh
-RUN ./init_db.sh
-
-RUN go build -o main .
+RUN GOGOARCH=amd64 GOOS=linux go build -tags musl -ldflags '-w -extldflags "-static"' -a -installsuffix cgo -o main main.go
 
 EXPOSE 8080
 

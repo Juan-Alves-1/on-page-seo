@@ -4,37 +4,31 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"on-page-seo/config"
 	"os"
 
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/tursodatabase/libsql-client-go/libsql"
 )
 
 var DB *sql.DB
 
 func InitDB() {
 	var err error
+	url := fmt.Sprintf("%s?authToken=%s", config.AppConfig.TursoURL, config.AppConfig.TursoToken)
 
-	// Get the database connection information from environment variables
-	dbHost := os.Getenv("DB_HOST")
-	dbUser := os.Getenv("DB_USER")
-	dbPass := os.Getenv("DB_PASS")
-	dbName := os.Getenv("DB_NAME")
-
-	// Form the DSN (Data Source Name)
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		dbUser, dbPass, dbHost, dbName)
-
-	DB, err = sql.Open("mysql", dsn)
+	DB, err = sql.Open("libsql", url)
 	if err != nil {
-		log.Fatalf("Error opening database: %v", err)
+		fmt.Fprintf(os.Stderr, "failed to open db %s: %s", url, err)
+		os.Exit(1)
 	}
 
-	// Verify the connection is valid
-	if err = DB.Ping(); err != nil {
-		log.Fatalf("Error connecting to the database: %v", err)
+	err = DB.Ping()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "failed to connect to db %s: %s", url, err)
+		os.Exit(1)
 	}
 
-	log.Println("Database connection established")
+	log.Println("Connected to the Turso database successfully!")
 }
 
 // if err = AutoMigrate(); err != nil {

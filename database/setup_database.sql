@@ -1,4 +1,4 @@
--- Create the database
+/* -- Create the database
 CREATE DATABASE friendly_url_results;
 
 -- Use the database
@@ -12,4 +12,4 @@ CREATE TABLE results (
     keyword VARCHAR(255) NOT NULL,
     result TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+); */
