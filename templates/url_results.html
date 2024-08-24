@@ -105,8 +105,35 @@
         </p>
         <p><strong>Keyword:</strong> {{.Keyword}}</p>
         <br>
+        <button id="save-results-button" class="btn btn-go-back">Save result</button>
+        <br>
+        <br>
         <a href="/url-checker" class="btn btn-go-back">Go Back</a>
     </div>
+    <script>
+    document.getElementById('save-results-button').addEventListener('click', function() {
+        const url = "{{.URL}}"; 
+        const keyword = "{{.Keyword}}"; 
+        const slug = "{{.Slug}}"; 
+        // const messages = {{.Result}}; 
+
+    fetch('/save-results', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ url, keyword, slug })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Results successfully saved');
+        } else {
+            alert('Error saving results: ' + data.error);
+        }
+        });
+    });
+    </script>
     <script>
         document.querySelector('.copy-button').addEventListener('click', function() {
             var slugText = '{{.Slug}}';
