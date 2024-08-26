@@ -3,12 +3,11 @@ package handler
 import (
 	"net/http"
 	"on-page-seo/src/repositories"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 )
 
-func SaveResultsHandler(c *gin.Context) {
+func SaveResults(c *gin.Context) {
 	var reqBody struct {
 		URL      string   `json:"url"`
 		Keyword  string   `json:"keyword"`
@@ -21,13 +20,11 @@ func SaveResultsHandler(c *gin.Context) {
 		return
 	}
 
-	joinedMessages := strings.Join(reqBody.Messages, " ")
-
 	err := repositories.SaveResults(repositories.ResultBody{
 		URL:     reqBody.URL,
 		Keyword: reqBody.Keyword,
 		Slug:    reqBody.Slug,
-		Result:  joinedMessages,
+		Result:  reqBody.Messages,
 	})
 
 	if err != nil {
