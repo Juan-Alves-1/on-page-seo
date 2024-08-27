@@ -13,6 +13,7 @@ func SaveResults(c *gin.Context) {
 		Keyword  string   `json:"keyword"`
 		Slug     string   `json:"slug"`
 		Messages []string `json:"messages"`
+		UUID     string   `json:"uuid"`
 	}
 
 	if err := c.ShouldBindJSON(&reqBody); err != nil {
@@ -20,11 +21,17 @@ func SaveResults(c *gin.Context) {
 		return
 	}
 
-	err := repositories.SaveResults(repositories.ResultBody{
+	uuid, err := c.Cookie("session_uuid")
+	if err != nil || uuid == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "UUID no found"})
+	}
+
+	err = repositories.SaveResults(repositories.ResultBody{
 		URL:     reqBody.URL,
 		Keyword: reqBody.Keyword,
 		Slug:    reqBody.Slug,
 		Result:  reqBody.Messages,
+		UUID:    uuid,
 	})
 
 	if err != nil {

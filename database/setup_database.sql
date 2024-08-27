@@ -7,6 +7,7 @@ USE friendly_url_results;
 -- Create the table to store URL analysis results
 CREATE TABLE results (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    uuid VARCHAR(36) NOT NULL,
     url VARCHAR(255) NOT NULL,
     slug VARCHAR(255) NOT NULL,
     keyword VARCHAR(255) NOT NULL,
