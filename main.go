@@ -25,8 +25,9 @@ func main() {
 	r.GET("/", handler.ShowHomepage)
 	r.GET("/url-checker", handler.ShowChecker)
 	r.POST("/url-checker/analyze", handler.UrlCheckerAnalysis)
-	r.POST("/save-results", handler.SaveResults)
-	r.DELETE("/results/:id", handler.DeleteResults)
+	r.POST("/api/save-results", handler.SaveResults)
+	r.GET("/api/result/", handler.UserResults)
+	r.DELETE("/api/result/:id", handler.DeleteResults)
 
 	port := os.Getenv("PORT")
 	if port == "" {
