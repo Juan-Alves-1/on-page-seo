@@ -2,7 +2,7 @@ package handler
 
 import (
 	"net/http"
-	"on-page-seo/src/repositories"
+	"on-page-seo/internal/repositories"
 	"strconv"
 
 	"github.com/gin-gonic/gin"

@@ -2,19 +2,21 @@ package handler
 
 import (
 	"net/http"
-	"on-page-seo/src/repositories"
+	"on-page-seo/internal/repositories"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
 
 func UserResults(c *gin.Context) {
-	uuid, err := c.Cookie("session_uuid")
-	if err != nil || uuid == "" {
+	authHeader := c.GetHeader("Authorization")
+	uuidToken := strings.TrimPrefix(authHeader, "Bearer ")
+	if uuidToken == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "UUID not found"})
 		return
 	}
 
-	results, err := repositories.GetResultsByUUID(uuid)
+	results, err := repositories.GetResultsByUUID(uuidToken)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Couldn't retrieve data from database"})
 		return
