@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"net/http"
 
 	controller "on-page-seo/internal/controller"
@@ -21,10 +22,18 @@ func UrlCheckerAnalysis(c *gin.Context) {
 
 	urlResult := controller.ValidateSlug(url, keyword, slug)
 
+	// Convert the result array to a JSON string for JavaScript usage
+	resultJSON, err := json.Marshal(urlResult)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error generating JSON"})
+		return
+	}
+
 	c.HTML(http.StatusOK, "url_results.html", gin.H{
-		"URL":     url,
-		"Slug":    slug,
-		"Keyword": keyword,
-		"Result":  urlResult,
+		"URL":        url,
+		"Slug":       slug,
+		"Keyword":    keyword,
+		"Result":     urlResult,          // For HTML rendering
+		"ResultJSON": string(resultJSON), // For JavaScript
 	})
 }

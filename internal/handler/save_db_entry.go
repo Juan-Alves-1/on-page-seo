@@ -23,10 +23,6 @@ func SaveResults(c *gin.Context) {
 	}
 
 	authHeader := c.GetHeader("Authorization")
-	if authHeader == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "UUID no found"})
-	}
-
 	uuidToken := strings.TrimPrefix(authHeader, "Bearer ")
 
 	err := repositories.SaveResults(repositories.ResultBody{
