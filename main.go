@@ -1,8 +1,11 @@
 package main
 
 import (
+	"fmt"
+	"on-page-seo/config"
 	"on-page-seo/database"
-	"on-page-seo/src/handler"
+	"on-page-seo/internal/handler"
+	"on-page-seo/internal/middleware"
 
 	"os"
 
@@ -10,14 +13,27 @@ import (
 )
 
 func main() {
+	err := config.LoadConfig()
+	if err != nil {
+		fmt.Printf("Wasn't able to connect with the database: %s", err)
+	}
 	database.InitDB()
 
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*")
 
+	r.GET("/health", handler.Readiness)
 	r.GET("/", handler.ShowHomepage)
-	r.GET("/url-checker", handler.ShowChecker)
-	r.POST("/url-checker/analyze", handler.UrlCheckerAnalysis)
+	r.GET("/url-checker", middleware.UUIDCreationMiddleware(), handler.ShowChecker)
+
+	authGroup := r.Group("/")
+	authGroup.Use(middleware.UUIDValidationnMiddleware())
+	{
+		r.POST("/url-checker/analyze", handler.UrlCheckerAnalysis)
+		r.POST("/api/save-results", handler.SaveResults)
+		r.GET("/api/result/", handler.UserResults)
+		r.DELETE("/api/result/:id", handler.DeleteResults)
+	}
 
 	port := os.Getenv("PORT")
 	if port == "" {

@@ -1,27 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEO-Friendly URL Results</title>
-</head>
-<body>
-    <h1>SEO-Friendly URL Results</h1>
-    <p><strong>Result:</strong></p>
-    <ul>
-        {{range .Result}}
-            <li>{{.}}</li>
-        {{end}}
-    </ul>
-    <br>
-    <p><strong>URL:</strong> {{.URL}}</p>
-    <p><strong>Slug:</strong> {{.Slug}}</p>
-    <p><strong>Keyword:</strong> {{.Keyword}}</p>
-    <br>
-    <a href="/url-checker">Go Back</a>
-    <br>
-</body>
-</html> -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -96,7 +72,7 @@
             {{range .Result}}
                 <li>{{.}}</li>
             {{end}}
-        </ul>
+        </ul>  
         <br>
         <p><strong>URL:</strong> {{.URL}}</p>
         <p>
@@ -105,8 +81,37 @@
         </p>
         <p><strong>Keyword:</strong> {{.Keyword}}</p>
         <br>
+        <button id="save-results-button" class="btn btn-go-back">Save result</button>
+        <br>
+        <br>
         <a href="/url-checker" class="btn btn-go-back">Go Back</a>
     </div>
+    <script> 
+    document.getElementById('save-results-button').addEventListener('click', function() {
+        const url = "{{.URL}}"; 
+        const keyword = "{{.Keyword}}"; 
+        const slug = "{{.Slug}}"; 
+        // const UUID = "{{.UUID}}"; fix it
+        const messages = JSON.parse('{{.ResultJSON}}'); 
+
+        fetch('/api/save-results', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + UUID  // Use UUID for Bearer token
+        },
+        body: JSON.stringify({ url, keyword, slug, messages })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Results successfully saved');
+        } else {
+            alert('Error saving results: ' + data.error);
+        }
+        });
+    });
+    </script> 
     <script>
         document.querySelector('.copy-button').addEventListener('click', function() {
             var slugText = '{{.Slug}}';

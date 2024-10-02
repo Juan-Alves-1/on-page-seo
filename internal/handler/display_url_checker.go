@@ -8,4 +8,5 @@ import (
 
 func ShowChecker(c *gin.Context) {
 	c.HTML(http.StatusOK, "checker.html", nil)
+
 }

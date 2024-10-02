@@ -2,7 +2,6 @@ package controller
 
 import (
 	"net/url"
-	"on-page-seo/src/repositories"
 	"path"
 	"strings"
 	"unicode"
@@ -63,18 +62,6 @@ func ValidateSlug(url string, keyword string, slug string) []string {
 
 	if len(messages) == 0 {
 		messages = []string{OptimizedURLMessage}
-	}
-
-	resultBody := repositories.ResultBody{
-		URL:     url,
-		Keyword: keyword,
-		Slug:    slug,
-		Result:  messages,
-	}
-
-	err := repositories.SaveResults(resultBody)
-	if err != nil {
-		return []string{err.Error()}
 	}
 
 	return messages
